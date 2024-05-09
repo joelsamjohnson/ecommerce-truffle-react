@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@trufflesuite/uws-js-unofficial": "^20.30.0-unofficial.0",
+    "truffle": "^5.11.5"
+  }
+}
