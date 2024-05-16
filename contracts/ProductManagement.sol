@@ -20,6 +20,7 @@ contract ProductManagement is RoleManagement {
     }
 
     mapping(uint256 => Product) public ProductStock;
+    mapping(uint256 => uint256[]) public Products;
 
     function addProduct(string memory _name, string memory _description, uint256 _price, string memory _imageHash)
         public
@@ -27,5 +28,6 @@ contract ProductManagement is RoleManagement {
     {
         productCtr++;
         ProductStock[productCtr] = Product(productCtr, _name, _description, _price, _imageHash, 0, 0, 0, STAGE.Init);
+
     }
 }

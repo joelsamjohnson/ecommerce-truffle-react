@@ -13,6 +13,7 @@ contract TransactionManagement is ProductManagement {
         require(ProductStock[_productID].stage == STAGE.Init);
         ProductStock[_productID].MANid = _id;
         ProductStock[_productID].stage = STAGE.Manufacture;
+        Products[_id].push(_productID);
     }
 
     //To check if Manufacturer is available in the blockchain
@@ -32,6 +33,8 @@ contract TransactionManagement is ProductManagement {
         require(ProductStock[_productID].stage == STAGE.Manufacture);
         ProductStock[_productID].DISid = _id;
         ProductStock[_productID].stage = STAGE.Distribution;
+        Products[_id].push(_productID);
+
     }
 
     //To check if distributor is available in the blockchain
@@ -51,6 +54,8 @@ contract TransactionManagement is ProductManagement {
         require(ProductStock[_productID].stage == STAGE.Distribution);
         ProductStock[_productID].RETid = _id;
         ProductStock[_productID].stage = STAGE.Retail;
+        Products[_id].push(_productID);
+
     }
 
     //To check if retailer is available in the blockchain
@@ -60,6 +65,29 @@ contract TransactionManagement is ProductManagement {
             if (RET[i].addr == _address) return RET[i].id;
         }
         return 0;
+    }
+
+    // Function to find products by user's address
+    function findProductsByAddress(address userAddress) public view returns (uint256[] memory) {
+
+        uint256[] memory productIds;
+        uint256 id = findMAN(userAddress);
+        if (id != 0) {
+            productIds = Products[id];
+        }
+
+        id = findDIS(userAddress);
+        if (id != 0) {
+            productIds = Products[id];
+        }
+
+        id = findRET(userAddress);
+        if (id != 0) {
+            productIds = Products[id];
+        }
+
+        // Return an empty array if the user is not found in any role
+        return productIds ;
     }
 
     mapping(address => uint[]) public purchases;
